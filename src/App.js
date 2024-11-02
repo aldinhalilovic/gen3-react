@@ -45,20 +45,156 @@ import NewsCard from "./components/NewsCard/NewsCard";
 // ];
 
 function App() {
-  const [broj, setBroj] = useState(0);
+  /*
+      STATE-> BROJ ILI STRING, PRVO PREDAVANJE
 
-  const generateRandomNumber = () => {
-    const randomNumber = Math.floor(Math.random() * 100);
-    setBroj(randomNumber);
+      const [broj, setBroj] = useState(0);
+      const generateRandomNumber = () => {
+      const randomNumber = Math.floor(Math.random() * 100);
+      setBroj(randomNumber);
+      };
+    */
+
+  /*
+     STATE -> Objekat, promena osobine unutar objekta :) 
+      const [user, setUser] = useState({
+        ime: "Aldin",
+        prezime: "Halilovic",
+      });
+
+      const promeniImeIPrezime = () =>
+    // setUser((prev) => ({ ...prev, ime: "Maid" }));
+    setUser((prev) => {
+      return {
+        ...prev,
+        ime: "Maid",
+      };
+    });
+    console.log(user);
+    */
+
+  // const [voce, setVoce] = useState([
+  //   "Jabuka",
+  //   "Jagoda",
+  //   "Banana",
+  //   "Kiwi",
+  //   "Kruska",
+  //   "Ananas",
+  //   "Kokos",
+  //   "Limun",
+  //   "Tresnja",
+  //   "Paradajz",
+  // ]);
+
+  // const dodajVoce = (nekistring) => {
+  //   // setVoce((prev) => [...prev, "Visnja"]); => prvi deo zadatka :)
+
+  //   const novoVoce = prompt("Unesi voce");
+
+  //   if (!novoVoce) return;
+
+  //   if (voce.find((vocka) => vocka.toLowerCase() === novoVoce.toLowerCase())) {
+  //     alert("IMA VOCE");
+  //   } else {
+  //     setVoce((prev) => [...prev, novoVoce]);
+  //     console.log("NEMA VOCE");
+  //   }
+  // };
+
+  // const objekat = {
+  //   ime: "ALdin",
+  //   godine: 21,
+  // };
+
+  // const nekaDinamickaVrednost = "ime";
+
+  // console.log(objekat[nekaDinamickaVrednost], "dinamicka vrednostttttt");
+  // console.log(objekat.nekaDinamickaVrednost, "dinamicka vrednostttttt, dotttt");
+
+  // console.log(objekat.ime, "dot notation .");
+  // console.log(objekat["ime"], "bracket notation []");
+
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    age: "",
+  });
+
+  console.log(user, "USERRR");
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+
+    setUser((prev) => ({ ...prev, firstName: value }));
+  };
+
+  const primer = {
+    ime: "", // input -> text
+    prezime: "", // input -> text
+    gender: "", // male || female, input -> radio
+    age: "", // od 18 - 30, input -> select
+    number: "", // input -> number,
+    hobby: "", // input -> text
   };
 
   return (
-    <div className="container" style={{ gap: 50 }}>
+    <div
+      className="container"
+      style={{ gap: 50, flexDirection: "column", fontSize: 32 }}
+    >
+      <input
+        type="text"
+        name="firstName"
+        value={user.firstName}
+        onChange={(event) => handleInputChange(event)}
+        placeholder="Enter your firstname"
+      />
+      <input
+        type="text"
+        name="lastName"
+        value={user.lastName}
+        onChange={(event) => handleInputChange(event)}
+        placeholder="Enter your lastname"
+      />
+      <input
+        type="text"
+        name="email"
+        value={user.email}
+        onChange={(event) => handleInputChange(event)}
+        placeholder="Enter your email"
+      />
+      {/* <div style={{ display: "flex", gap: 10 }}>
+        <h1>{user.ime}</h1>
+        <h1>{user.prezime}</h1>
+      </div> */}
+      {/* <ol>
+        {voce.map((vocka) => (
+          <li key={vocka}>{vocka}</li>
+        ))}
+      </ol>
+
+      <button
+        onClick={dodajVoce}
+        // onClick={() => dodajVoce("neki string")}
+        style={{
+          padding: "5px 10px",
+          border: "none",
+          borderRadius: 12,
+          outline: "none",
+          backgroundColor: "lightblue",
+          color: "black",
+          fontSize: 24,
+          cursor: "pointer",
+        }}
+        // onClick={promeniImeIPrezime}
+      >
+        Promeni ime
+      </button> */}
       {/* {news.map((article, i) => (
         <NewsCard key={i} article={article} />
       ))} */}
-
-      <div
+      {/* <div
         style={{
           display: "flex",
           justifyContent: "center",
@@ -99,7 +235,7 @@ function App() {
         }}
       >
         {broj % 2 === 0 ? <p>Broj je paran</p> : <p>Broj je neparan</p>}
-      </div>
+      </div> */}
     </div>
   );
 }
