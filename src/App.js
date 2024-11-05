@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./App.css";
 import NewsCard from "./components/NewsCard/NewsCard";
+import NewUserForm from "./components/NewUserForm/NewUserForm";
+import NewUserCard from "./components/NewUserCard/NewUserCard";
 // const news = [
 //   {
 //     id: 1,
@@ -114,56 +116,68 @@ function App() {
   // console.log(objekat.ime, "dot notation .");
   // console.log(objekat["ime"], "bracket notation []");
 
-  const [user, setUser] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    age: "",
-  });
+  // const [user, setUser] = useState({
+  //   firstName: "",
+  //   lastName: "",
+  //   email: "",
+  //   age: "",
+  // });
 
-  console.log(user, "USERRR");
+  // console.log(user, "USERRR");
+
+  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState({
+    ime: "",
+    prezime: "",
+    gender: "",
+    age: "",
+    number: "",
+    hobby: "",
+  });
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    setUser((prev) => ({ ...prev, firstName: value }));
+    setUser((prev) => ({ ...prev, [name]: value }));
   };
 
-  const primer = {
-    ime: "", // input -> text
-    prezime: "", // input -> text
-    gender: "", // male || female, input -> radio
-    age: "", // od 18 - 30, input -> select
-    number: "", // input -> number,
-    hobby: "", // input -> text
+  const handleFormSubmit = () => {
+    setUsers((prev) => [...prev, user]);
+    setUser({
+      age: "",
+      // gender: "",
+      hobby: "",
+      ime: "",
+      number: "",
+      prezime: "",
+    });
   };
 
   return (
     <div
       className="container"
-      style={{ gap: 50, flexDirection: "column", fontSize: 32 }}
+      style={{ fontSize: 32, justifyContent: "space-evenly" }}
     >
-      <input
-        type="text"
-        name="firstName"
-        value={user.firstName}
-        onChange={(event) => handleInputChange(event)}
-        placeholder="Enter your firstname"
+      <NewUserForm
+        user={user}
+        handleInputChange={handleInputChange}
+        handleFormSubmit={handleFormSubmit}
       />
-      <input
-        type="text"
-        name="lastName"
-        value={user.lastName}
-        onChange={(event) => handleInputChange(event)}
-        placeholder="Enter your lastname"
-      />
-      <input
-        type="text"
-        name="email"
-        value={user.email}
-        onChange={(event) => handleInputChange(event)}
-        placeholder="Enter your email"
-      />
+      <div
+        style={{
+          width: "50%",
+          height: "100%",
+          padding: 30,
+          display: "flex",
+          gap: 20,
+        }}
+      >
+        {users.length === 0 ? (
+          <h4>Nemate kreiranog korisnika...</h4>
+        ) : (
+          users.map((user, index) => <NewUserCard key={index} user={user} />)
+        )}
+      </div>
       {/* <div style={{ display: "flex", gap: 10 }}>
         <h1>{user.ime}</h1>
         <h1>{user.prezime}</h1>
