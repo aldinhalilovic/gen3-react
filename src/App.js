@@ -1,5 +1,6 @@
-import { useState } from "react";
 import "./App.css";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import NewsCard from "./components/NewsCard/NewsCard";
 import NewUserForm from "./components/NewUserForm/NewUserForm";
 import NewUserCard from "./components/NewUserCard/NewUserCard";
@@ -125,40 +126,123 @@ function App() {
 
   // console.log(user, "USERRR");
 
-  const [users, setUsers] = useState([]);
-  const [user, setUser] = useState({
-    ime: "",
-    prezime: "",
-    gender: "",
-    age: "",
-    number: "",
-    hobby: "",
-  });
+  // const [users, setUsers] = useState([]);
+  // const [user, setUser] = useState({
+  //   ime: "",
+  //   prezime: "",
+  //   gender: "",
+  //   age: "",
+  //   number: "",
+  //   hobby: "",
+  // });
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
+  // const handleInputChange = (event) => {
+  //   const { name, value } = event.target;
 
-    setUser((prev) => ({ ...prev, [name]: value }));
-  };
+  //   setUser((prev) => ({ ...prev, [name]: value }));
+  // };
 
-  const handleFormSubmit = () => {
-    setUsers((prev) => [...prev, user]);
-    setUser({
-      age: "",
-      // gender: "",
-      hobby: "",
-      ime: "",
-      number: "",
-      prezime: "",
-    });
-  };
+  // const handleFormSubmit = () => {
+  //   setUsers((prev) => [...prev, user]);
+  //   setUser({
+  //     age: "",
+  //     // gender: "",
+  //     hobby: "",
+  //     ime: "",
+  //     number: "",
+  //     prezime: "",
+  //   });
+  // };
+
+  const [broj, setBroj] = useState(0);
+  const [zadaci, setZadaci] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [totalQuotes, setTotalQuotes] = useState(0);
+  const [quotesPerPage, setQuotesPerPage] = useState(10);
+  const [quotesPerPageNew, setQuotesPerPageNew] = useState(1);
+
+  // samo za fetchanje podataka
+  useEffect(() => {
+    // setLoading(true);
+    // fetch("https://dummyjson.com/todos")
+    //   .then((res) => {
+    //     return res.json();
+    //   })
+    //   .then((data) => data.todos)
+    //   .then((todos) => setZadaci(todos))
+    //   .finally(() => setLoading(false));
+
+    // axios.get("https://dummyjson.com/todos").then((response) => {
+    //   console.log(response);
+
+    //   if (response.statusText === "Bad request") {
+    //     alert("Nesot nje kako treba");
+    //   }
+    //   console.log(response.data);
+    //   setZadaci(response.data.todos);
+    // });
+
+    console.log("pre");
+
+    axios
+      // .get(
+      //   `https://dummyjson.com/quotes?limit=${quotesPerPage}&skip=${
+      //     broj * quotesPerPage
+      //   }`
+      // )
+      .get(`https://dummyjson.com/quotes/${quotesPerPageNew}`)
+      .then((data) => {
+        console.log(data.data);
+        setTotalQuotes(data.data.total);
+        setZadaci(data.data);
+      });
+    console.log("posle");
+  }, [broj, quotesPerPage]);
 
   return (
     <div
       className="container"
       style={{ fontSize: 32, justifyContent: "space-evenly" }}
     >
-      <NewUserForm
+      {/* <div>
+        <h1>
+          {broj + 1} / {Math.ceil(totalQuotes / quotesPerPage)}
+        </h1>
+      </div> */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+        <button onClick={() => setBroj((prev) => prev + 1)}>
+          Promeni stranicu
+        </button>
+        <input
+          type="number"
+          value={quotesPerPageNew}
+          onChange={(event) => setQuotesPerPageNew(event.target.value)}
+        />
+        <button onClick={() => setQuotesPerPage(quotesPerPageNew)}>
+          Promeni broj quots-a
+        </button>
+      </div>
+      <div>
+        {/* {zadaci.map((quote) => (
+          <h1 key={quote.id}>{quote.id}</h1>
+        ))} */}
+        {zadaci?.id}
+        {zadaci.quote}
+      </div>
+      {/* <div>
+        {loading ? (
+          <h1>Fetcha podatke....</h1>
+        ) : (
+          zadaci.map((zadatak) => (
+            <h3>
+              {zadatak.id}. {zadatak.todo}.
+            </h3>
+          ))
+        )}
+      </div>
+      <button onClick={() => setBroj(5)}>Promeni broj</button> */}
+
+      {/* <NewUserForm
         user={user}
         handleInputChange={handleInputChange}
         handleFormSubmit={handleFormSubmit}
@@ -177,7 +261,7 @@ function App() {
         ) : (
           users.map((user, index) => <NewUserCard key={index} user={user} />)
         )}
-      </div>
+      </div> */}
       {/* <div style={{ display: "flex", gap: 10 }}>
         <h1>{user.ime}</h1>
         <h1>{user.prezime}</h1>
